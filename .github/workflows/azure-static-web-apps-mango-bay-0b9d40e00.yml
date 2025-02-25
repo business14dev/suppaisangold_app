@@ -1,0 +1,53 @@
+name: Azure Static Web Apps CI/CD
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - master
+
+jobs:
+  build_and_deploy_job:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+    runs-on: ubuntu-latest
+    name: Build and Deploy Job
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+          lfs: false
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          version: 3.0.2
+      - name: Build Web Application
+        run: flutter build web
+      - name: Build And Deploy
+        id: builddeploy
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_MANGO_BAY_0B9D40E00 }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }} # ใช้สำหรับ Github integration (เช่น PR comments)
+          action: "upload"
+          app_location: "build/web" # ที่อยู่ของโค้ดแอป
+          api_location: "" # ที่อยู่ของ API (ไม่จำเป็น)
+          output_location: "build/web" # ที่อยู่ของไฟล์ที่บิวด์เสร็จแล้ว
+
+  close_pull_request_job:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    name: Close Pull Request Job
+    steps:
+      - name: Close Pull Request
+        id: closepullrequest
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_MANGO_BAY_0B9D40E00 }}
+          action: "close"
+          app_location: "build/web"
+          output_location: "build/web"
+          skip_app_build: true # เพิ่มบรรทัดนี้

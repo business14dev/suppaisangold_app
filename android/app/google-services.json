@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "671407334492",
+    "project_id": "gs-suppaisangold",
+    "storage_bucket": "gs-suppaisangold.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:671407334492:android:88e5f74c42b6f1e30d7299",
+        "android_client_info": {
+          "package_name": "com.suppaisangold.suppaisangoldapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVZv2QK8GUtRFFwaDFJh7z3dg951tupYM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
