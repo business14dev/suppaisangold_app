@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:counter_button/counter_button.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:suppaisangold_app/src/models/mobileapppaymentint_response.dart';
 import 'package:suppaisangold_app/src/pages/home_page.dart';
@@ -10,6 +11,7 @@ import 'package:suppaisangold_app/src/pages/qrcodepromptpay_page.dart';
 import 'package:suppaisangold_app/src/utils/appconstants.dart';
 import 'package:suppaisangold_app/src/utils/appformatters.dart';
 import 'package:suppaisangold_app/src/utils/appvariables.dart';
+import 'package:suppaisangold_app/src/utils/banknameandimage.dart';
 import 'package:suppaisangold_app/src/widgets/selectdatetime.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -63,22 +65,22 @@ class _UploadSlipIntPageState extends State<UploadSlipIntPage> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-           backgroundColor: Colors.black,
-                  flexibleSpace: Container(
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.black54,
-                          Colors.black45,
-                          Color.fromARGB(137, 101, 99, 99),
-                          Colors.black45,
-                          Colors.black54
-                        ], // ไล่เฉดสีฟ้า
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                      ),
-                    ),
-                  ),
+          backgroundColor: Colors.black,
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.black54,
+                  Colors.black45,
+                  Color.fromARGB(137, 101, 99, 99),
+                  Colors.black45,
+                  Colors.black54
+                ], // ไล่เฉดสีฟ้า
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+              ),
+            ),
+          ),
           title: Text(
             "เพิ่มรูปสลิปโอน ${AppVariables.MobileAppPaymentIntType} ${AppVariables.MobileAppPaymentIntBillId}",
             style: TextStyle(color: Color(0xFFFFFFFF)),
@@ -186,6 +188,72 @@ class _UploadSlipIntPageState extends State<UploadSlipIntPage> {
                     ),
                   ),
                   SizedBox(height: 15),
+                  Container(
+                    child: Row(
+                      children: [
+                        SizedBox(width: 10),
+                        Container(
+                          //margin: const EdgeInsets.all(40.0),
+                          width: 100,
+                          height: 100,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: new AssetImage(
+                                      getBankImage(AppVariables.BankAccInt)))),
+                        ),
+                        SizedBox(width: 10),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              AppVariables.BankAccInt,
+                              style: TextStyle(
+                                fontSize: 26,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red,
+                              ),
+                            ),
+                            // SizedBox(height: 10),
+                            Text(
+                              AppVariables.BankAcctNameInt,
+                              style: TextStyle(
+                                fontSize: 26,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red,
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  AppVariables.BankAcctNoInt,
+                                  style: TextStyle(
+                                    fontSize: 26,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                                IconButton(
+                                    icon: Icon(
+                                      Icons.copy,
+                                      size: 26,
+                                      color: Colors.red
+                                    ),
+                                    onPressed: () async {
+                                      await Clipboard.setData(ClipboardData(
+                                          text: AppVariables.BankAcctNoInt));
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
+                                        content: Text('Copied to clipboard'),
+                                      ));
+                                    }),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                   // Container(
                   //   padding: EdgeInsets.only(left: 10, right: 10),
                   //   child: Center(
@@ -287,14 +355,14 @@ class _UploadSlipIntPageState extends State<UploadSlipIntPage> {
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                          Colors.black54,
-                          Colors.black45,
-                          Color.fromARGB(137, 101, 99, 99),
-                          Colors.black45,
-                          Colors.black54
-                        ], // ไล่เฉดสีฟ้า
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
+                              Colors.black54,
+                              Colors.black45,
+                              Color.fromARGB(137, 101, 99, 99),
+                              Colors.black45,
+                              Colors.black54
+                            ], // ไล่เฉดสีฟ้า
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
                           ),
                           borderRadius: BorderRadius.all(Radius.circular(25)),
                         ),
@@ -328,15 +396,15 @@ class _UploadSlipIntPageState extends State<UploadSlipIntPage> {
                         width: MediaQuery.of(context).size.width * 0.8,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
-                             colors: [
-                          Colors.black54,
-                          Colors.black45,
-                          Color.fromARGB(137, 101, 99, 99),
-                          Colors.black45,
-                          Colors.black54
-                        ], // ไล่เฉดสีฟ้า
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
+                            colors: [
+                              Colors.black54,
+                              Colors.black45,
+                              Color.fromARGB(137, 101, 99, 99),
+                              Colors.black45,
+                              Colors.black54
+                            ], // ไล่เฉดสีฟ้า
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
                           ),
                           borderRadius: BorderRadius.all(Radius.circular(25)),
                         ),
@@ -401,14 +469,14 @@ class _UploadSlipIntPageState extends State<UploadSlipIntPage> {
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                          Colors.black54,
-                          Colors.black45,
-                          Color.fromARGB(137, 101, 99, 99),
-                          Colors.black45,
-                          Colors.black54
-                        ], // ไล่เฉดสีฟ้า
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
+                              Colors.black54,
+                              Colors.black45,
+                              Color.fromARGB(137, 101, 99, 99),
+                              Colors.black45,
+                              Colors.black54
+                            ], // ไล่เฉดสีฟ้า
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
                           ),
                           borderRadius: BorderRadius.all(Radius.circular(25)),
                         ),
@@ -461,7 +529,8 @@ class _UploadSlipIntPageState extends State<UploadSlipIntPage> {
                           autofocus: true,
                           decoration: InputDecoration(
                             labelText: "เวลาโอน",
-                             labelStyle: TextStyle(fontSize: 18, color: Colors.red),
+                            labelStyle:
+                                TextStyle(fontSize: 18, color: Colors.red),
                           ),
                         ),
                       ),
@@ -483,7 +552,8 @@ class _UploadSlipIntPageState extends State<UploadSlipIntPage> {
                           autofocus: true,
                           decoration: InputDecoration(
                             labelText: "หมายเหตุ (ถ้ามี)",
-                            labelStyle: TextStyle(fontSize: 18, color: Colors.red),
+                            labelStyle:
+                                TextStyle(fontSize: 18, color: Colors.red),
                           ),
                         ),
                       ),
@@ -498,14 +568,14 @@ class _UploadSlipIntPageState extends State<UploadSlipIntPage> {
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                          Colors.black54,
-                          Colors.black45,
-                          Color.fromARGB(137, 101, 99, 99),
-                          Colors.black45,
-                          Colors.black54
-                        ], // ไล่เฉดสีฟ้า
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
+                              Colors.black54,
+                              Colors.black45,
+                              Color.fromARGB(137, 101, 99, 99),
+                              Colors.black45,
+                              Colors.black54
+                            ], // ไล่เฉดสีฟ้า
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
                           ),
                           borderRadius: BorderRadius.all(Radius.circular(25)),
                         ),
